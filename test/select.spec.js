@@ -572,7 +572,7 @@ describe('ui-select tests', function() {
       </ui-select>'
     );
     clickItem(el, 'Samantha');
-	  expect(scope.selection.selected).toBe(scope.people[5]);
+    expect(scope.selection.selected).toBe(scope.people[5]);
   });
 
   it('should parse the model correctly using alias', function() {
@@ -601,7 +601,7 @@ describe('ui-select tests', function() {
       </ui-select>'
     );
     clickItem(el, 'Samantha');
-	  expect(scope.selection.selected).toBe('Samantha');
+    expect(scope.selection.selected).toBe('Samantha');
   });
 
   it('should parse the model correctly using property of alias', function() {
@@ -661,7 +661,7 @@ describe('ui-select tests', function() {
   it('should format the model correctly without alias', function() {
     var el = createUiSelect();
     clickItem(el, 'Samantha');
-	  expect(scope.selection.selected).toBe(scope.people[5]);
+    expect(scope.selection.selected).toBe(scope.people[5]);
   });
 
   it('should parse the model correctly without alias', function() {
@@ -702,12 +702,13 @@ describe('ui-select tests', function() {
 
   it('should invoke select callback on select', function () {
 
-    scope.onSelectFn = function ($item, $model, $label) {
+    scope.onSelectFn = function ($item, $model, $sel, $label) {
       scope.$item = $item;
       scope.$model = $model;
+      scope.$sel = $sel;
     };
     var el = compileTemplate(
-      '<ui-select on-select="onSelectFn($item, $model)" ng-model="selection.selected"> \
+      '<ui-select on-select="onSelectFn($item, $model, $select.selected.name)" ng-model="selection.selected"> \
         <ui-select-match placeholder="Pick one...">{{$select.selected.name}}</ui-select-match> \
         <ui-select-choices repeat="person.name as person in people | filter: $select.search"> \
           <div ng-bind-html="person.name | highlight: $select.search"></div> \
@@ -718,12 +719,14 @@ describe('ui-select tests', function() {
 
     expect(scope.$item).toBeFalsy();
     expect(scope.$model).toBeFalsy();
+    expect(scope.$sel).toBeFalsy();
 
     clickItem(el, 'Samantha');
-    expect(scope.selection.selected).toBe('Samantha');
-
     expect(scope.$item).toEqual(scope.people[5]);
     expect(scope.$model).toEqual('Samantha');
+    expect(scope.$sel).toEqual('Samantha');
+
+    expect(scope.selection.selected).toBe('Samantha');
 
   });
 
