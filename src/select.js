@@ -331,17 +331,18 @@
         var locals = {};
         locals[ctrl.parserResult.itemName] = item;
 
-        ctrl.onSelectCallback($scope, {
-            $item: item,
-            $model: ctrl.parserResult.modelMapper($scope, locals)
-        });
-
         if(ctrl.multiple){
           ctrl.selected.push(item);
           ctrl.sizeSearchInput();
         } else {
           ctrl.selected = item;
         }
+        
+        ctrl.onSelectCallback($scope, {
+            $item: item,
+            $model: ctrl.parserResult.modelMapper($scope, locals)
+        });
+        
         ctrl.close(skipFocusser);
       }
     };
